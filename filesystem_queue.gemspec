@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.email = ["carloswestman@gmail.com"]
 
   spec.summary = "A persistent queue system based on the local filesystem"
-  spec.description = "FilesystemQueue is a Ruby gem that provides a persistent queue system using the local filesystem. It allows you to enqueue and dequeue jobs, and keeps track of completed and failed jobs."
+  spec.description = "FilesystemQueue is a Ruby gem that provides a persistent queue system "\
+  "using the local filesystem.It allows you to enqueue and dequeue jobs, and keeps track of completed and failed jobs."
   spec.homepage = "https://github.com/carloswestman/filesystem_queue"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"

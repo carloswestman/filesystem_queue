@@ -31,17 +31,7 @@ module FilesystemQueue
     end
 
     def dequeue
-      job_file = nil
-      File.open(@index_file, "r+") do |f|
-        lines = f.each_line.to_a
-        return nil if lines.empty?
-
-        job_file = lines.shift.strip
-        f.rewind
-        f.write(lines.join)
-        f.truncate(f.pos)
-      end
-
+      job_file = extract_job_file_from_index
       return nil unless job_file && File.exist?(job_file)
 
       job_data = JSON.parse(File.read(job_file), symbolize_names: true)
@@ -70,6 +60,20 @@ module FilesystemQueue
       FileUtils.mv(job_file, target_dir)
     rescue StandardError => e
       puts "Failed to move job file: #{e.message}"
+    end
+
+    def extract_job_file_from_index
+      job_file = nil
+      File.open(@index_file, "r+") do |f|
+        lines = f.each_line.to_a
+        return nil if lines.empty?
+
+        job_file = lines.shift.strip
+        f.rewind
+        f.write(lines.join)
+        f.truncate(f.pos)
+      end
+      job_file
     end
   end
 end
