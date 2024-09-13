@@ -1,18 +1,32 @@
 # FilesystemQueue
 
+[![Gem Version](https://badge.fury.io/rb/filesystem_queue.svg)](https://badge.fury.io/rb/filesystem_queue)
+
 `FileSystemQueue` is a persistent queue system based on the local filesystem. It allows you to enqueue and dequeue jobs, and keeps track of completed and failed jobs.
+
+
+## What is this for?
+
+`FileSystemQueue` is designed for applications that need a simple, embedded queue system with minimal footprint. It consists of just a single class and utilizes your local filesystem for storage. This makes it an excellent choice for lightweight applications or development environments where setting up a full-fledged queue service is overkill. If you are looking to scale up your queue into a service architecture, Ruby offers other solutions like Resque (Redis-based), or various suites from cloud providers such as AWS-SQS.
+
+### Features
+
+- **Persistence**: Jobs are stored on the filesystem, ensuring they are not lost between application restarts.
+- **Minimal Overhead**: No need for external dependencies or services.
+- **Ease of Use**: Simple API for enqueuing and dequeuing jobs.
+- **Improved Performance**: Enhances filesystem performance by using an index file that keeps track of files by the time they are written in the queue.
+- **Tailored for Local Use**: This system is designed for local use with a single consumer (at the moment).
+- **Job Management**: Completed and failed jobs are tracked in separate folders for easy management.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add filesystem_queue
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install filesystem_queue
 
 ## Methods
 
