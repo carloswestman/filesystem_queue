@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    filesytem_queue (0.1.0)
+    filesystem_queue (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -37,7 +37,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  filesytem_queue!
+  filesystem_queue!
   minitest (~> 5.0)
   rake (~> 13.0)
   rubocop (~> 1.21)

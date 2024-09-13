@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in filesytem_queue.gemspec
+# Specify your gem's dependencies in filesystem_queue.gemspec
 gemspec
 
 gem "rake", "~> 13.0"

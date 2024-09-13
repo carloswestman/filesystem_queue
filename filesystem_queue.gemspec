@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/filesytem_queue/version"
+require_relative "lib/filesystem_queue/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "filesytem_queue"
-  spec.version = FilesytemQueue::VERSION
+  spec.name = "filesystem_queue"
+  spec.version = FilesystemQueue::VERSION
   spec.authors = ["Carlos Westman"]
   spec.email = ["carloswestman@gmail.com"]
 

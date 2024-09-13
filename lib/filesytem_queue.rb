@@ -2,9 +2,9 @@
 
 require "json"
 require "fileutils"
-require_relative "filesytem_queue/version"
+require_relative "filesystem_queue/version"
 
-module FilesytemQueue
+module FilesystemQueue
   class Error < StandardError; end
 
   # A persistent queue system based on the local filesystem

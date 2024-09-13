@@ -1,4 +1,4 @@
-# FilesytemQueue
+# FilesystemQueue
 
 `FileSystemQueue` is a persistent queue system based on the local filesystem. It allows you to enqueue and dequeue jobs, and keeps track of completed and failed jobs.
 
@@ -128,7 +128,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/carloswestman/filesytem_queue. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/carloswestman/filesytem_queue/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/carloswestman/filesystem_queue. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/carloswestman/filesystem_queue/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -136,4 +136,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the FilesytemQueue project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/carloswestman/filesytem_queue/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the FilesystemQueue project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/carloswestman/filesystem_queue/blob/master/CODE_OF_CONDUCT.md).
