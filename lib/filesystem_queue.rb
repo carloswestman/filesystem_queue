@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "json"
-require "fileutils"
-require_relative "filesystem_queue/version"
+require 'json'
+require 'fileutils'
+require_relative 'filesystem_queue/version'
 
 module FilesystemQueue
   class Error < StandardError; end
@@ -12,27 +12,29 @@ module FilesystemQueue
   class Queue
     def initialize(queue_dir)
       @queue_dir = queue_dir
-      @jobs_dir = File.join(@queue_dir, "jobs")
-      @completed_dir = File.join(@queue_dir, "completed")
-      @failed_dir = File.join(@queue_dir, "failed")
-      @index_file = File.join(@queue_dir, "index.txt")
+      @jobs_dir = File.join(@queue_dir, 'jobs')
+      @completed_dir = File.join(@queue_dir, 'completed')
+      @failed_dir = File.join(@queue_dir, 'failed')
 
       [@jobs_dir, @completed_dir, @failed_dir].each do |dir|
         FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
       end
-      FileUtils.touch(@index_file) unless File.exist?(@index_file)
+
+      @index = rebuild_index
     end
 
     def enqueue(job)
       timestamp = Time.now.to_f.to_s
       job_file = File.join(@jobs_dir, "job_#{timestamp}.json")
       File.write(job_file, job.to_json)
-      File.open(@index_file, "a") { |f| f.puts(job_file) }
+      @index << job_file
     end
 
     def dequeue
-      job_file = extract_job_file_from_index
-      return nil unless job_file && File.exist?(job_file)
+      return nil if @index.empty?
+
+      job_file = @index.shift
+      return nil unless File.exist?(job_file)
 
       job_data = JSON.parse(File.read(job_file), symbolize_names: true)
       [job_file, job_data]
@@ -47,33 +49,30 @@ module FilesystemQueue
     end
 
     def size
-      File.readlines(@index_file).size
+      @index.size
     end
 
     def failed_size
-      Dir[File.join(@failed_dir, "*")].count { |file| File.file?(file) }
+      Dir[File.join(@failed_dir, '*')].count { |file| File.file?(file) }
+    end
+
+    # CAUTION: Cleanup the queue directory, removing all files and directories
+    def cleanup
+      [@jobs_dir, @completed_dir, @failed_dir].each do |dir|
+        FileUtils.rm_rf(dir)
+      end
+      FileUtils.rm_rf(@queue_dir)
     end
 
     private
 
-    def move_job(job_file, target_dir)
-      FileUtils.mv(job_file, target_dir)
-    rescue StandardError => e
-      puts "Failed to move job file: #{e.message}"
+    def rebuild_index
+      Dir.glob(File.join(@jobs_dir, '*.json')).sort
     end
 
-    def extract_job_file_from_index
-      job_file = nil
-      File.open(@index_file, "r+") do |f|
-        lines = f.each_line.to_a
-        return nil if lines.empty?
-
-        job_file = lines.shift.strip
-        f.rewind
-        f.write(lines.join)
-        f.truncate(f.pos)
-      end
-      job_file
+    def move_job(job_file, target_dir)
+      FileUtils.mv(job_file, target_dir)
+      @index.delete(job_file)
     end
   end
 end

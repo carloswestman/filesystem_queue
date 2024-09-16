@@ -14,9 +14,11 @@
 - **Persistence**: Jobs are stored on the filesystem, ensuring they are not lost between application restarts.
 - **Minimal Overhead**: No need for external dependencies or services.
 - **Ease of Use**: Simple API for enqueuing and dequeuing jobs.
-- **Improved Performance**: Enhances filesystem performance by using an index file that keeps track of files by the time they are written in the queue.
-- **Tailored for Local Use**: This system is designed for local use with a single consumer (at the moment).
-- **Job Management**: Completed and failed jobs are tracked in separate folders for easy management.
+- **In-Memory Index**: Uses an in-memory index for tracking jobs, improving performance by reducing file I/O operations.
+- **Cleanup Method**: Provides a method to delete all files and directories created by the queue.
+- **Queue Size Methods**: Includes methods to get the size of the queue and the number of failed jobs.
+- **Tailored for Local Use**: This system is optimized for local use with a single consumer. If you are looking for a multiple consumer approach you should be looking for larger distributed solutions such as Resque or other distributed Queue systems.
+- **Job Management**: Once a job is dequeued, it's your responsabilty to flag it as `Completed` or `Failed`. Make sure you have fault tolerant logic in your worker to ensure this step. Completed and failed jobs are tracked in separate folders for easy management.
 
 ## Installation
 
@@ -117,6 +119,9 @@ puts 'Queue is empty'
 # Check on failed jobs
 puts "Queue size: #{queue.size}"
 puts "Failed jobs: #{queue.failed_size}"
+
+# Cleanup all files and directories created by the queue
+queue.cleanup
 ```
 
 ## Error Handling
