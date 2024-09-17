@@ -74,6 +74,18 @@ Returns the number of jobs currently in the queue.
 - **Returns**:
   - `Integer`: The number of jobs in the queue.
 
+### `reenqueue_failed_jobs`
+
+Moves all failed jobs back to the queue for reprocessing.
+
+### `reenqueue_completed_jobs`
+
+Moves all completed jobs back to the queue for reprocessing.
+
+### `cleanup`
+
+Removes all files and directories created by the queue.
+
 ## Usage
 
 ```ruby
@@ -119,6 +131,12 @@ puts 'Queue is empty'
 # Check on failed jobs
 puts "Queue size: #{queue.size}"
 puts "Failed jobs: #{queue.failed_size}"
+
+# Reenqueue all failed jobs back to the queue
+queue.reenqueue_failed_jobs
+
+# Reenqueue all completed jobs back to the queue
+queue.reenqueue_completed_jobs
 
 # Cleanup all files and directories created by the queue
 queue.cleanup

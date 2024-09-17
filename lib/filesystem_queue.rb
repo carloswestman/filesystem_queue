@@ -56,6 +56,23 @@ module FilesystemQueue
       Dir[File.join(@failed_dir, '*')].count { |file| File.file?(file) }
     end
 
+    def retry_failed_jobs
+      failed_jobs = Dir.glob(File.join(@failed_dir, '*.json'))
+      failed_jobs.each do |job_file|
+        new_job_file = File.join(@jobs_dir, File.basename(job_file))
+        FileUtils.mv(job_file, new_job_file)
+        @index << new_job_file
+      end
+    end
+
+    def reenqueue_failed_jobs
+      reenqueue_jobs(@failed_dir)
+    end
+
+    def reenqueue_completed_jobs
+      reenqueue_jobs(@completed_dir)
+    end
+
     # CAUTION: Cleanup the queue directory, removing all files and directories
     def cleanup
       [@jobs_dir, @completed_dir, @failed_dir].each do |dir|
@@ -73,6 +90,15 @@ module FilesystemQueue
     def move_job(job_file, target_dir)
       FileUtils.mv(job_file, target_dir)
       @index.delete(job_file)
+    end
+
+    def reenqueue_jobs(source_dir)
+      job_files = Dir.glob(File.join(source_dir, '*.json'))
+      job_files.each do |job_file|
+        new_job_file = File.join(@jobs_dir, File.basename(job_file))
+        FileUtils.mv(job_file, new_job_file)
+        @index << new_job_file
+      end
     end
   end
 end
