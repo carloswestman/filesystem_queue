@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+## [0.4.0] - 2024-10-3
+- Failed jobs have added metadata including `last_exception` and `retry_count`
+
 ## [0.3.0] - 2024-09-20
 - Added `reenqueue_failed_jobs` method to move failed jobs back to the queue
 - Added `reenqueue_completed_jobs` method to move completed jobs back to the queue

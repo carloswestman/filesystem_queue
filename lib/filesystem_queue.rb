@@ -44,7 +44,8 @@ module FilesystemQueue
       move_job(job_file, @completed_dir)
     end
 
-    def fail(job_file)
+    def fail(job_file, exception)
+      mark_failed_job(job_file, exception)
       move_job(job_file, @failed_dir)
     end
 
@@ -99,6 +100,14 @@ module FilesystemQueue
         FileUtils.mv(job_file, new_job_file)
         @index << new_job_file
       end
+    end
+
+    # Adds metadata for the job for the retry count and the exception details
+    def mark_failed_job(job_file)
+      job_data = JSON.parse(File.read(job_file), symbolize_names: true)
+      job_data[:retry_count] = (job_data[:retry_count] || 0) + 1
+      job_data[:last_exception] = exception.message if exception
+      File.write(job_file, job_data.to_json)
     end
   end
 end
