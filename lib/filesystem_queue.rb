@@ -103,7 +103,7 @@ module FilesystemQueue
     end
 
     # Adds metadata for the job for the retry count and the exception details
-    def mark_failed_job(job_file)
+    def mark_failed_job(job_file, exception)
       job_data = JSON.parse(File.read(job_file), symbolize_names: true)
       job_data[:retry_count] = (job_data[:retry_count] || 0) + 1
       job_data[:last_exception] = exception.message if exception
