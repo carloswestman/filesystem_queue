@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+## [0.4.1] - 2024-12-31
+- Fixes minor bug for failing jobs
+
 ## [0.4.0] - 2024-10-3
 - Failed jobs have added metadata including `last_exception` and `retry_count`
 
